@@ -8,8 +8,8 @@ import { Ingredient } from '../../shared/ingredient.module';
 })
 export class ShoppingEditComponent implements OnInit {
 
-  @ViewChild('amountInput') amountInput;
-  @ViewChild('nameInput') nameInput;
+  @ViewChild('amountInput') amountInput:ElementRef;
+  @ViewChild('nameInput') nameInput:ElementRef;
 
   @Output() ingredientAdded = new EventEmitter<Ingredient>();
 
@@ -20,8 +20,15 @@ export class ShoppingEditComponent implements OnInit {
 
   addIngredient()
   {
-    const blah = new Ingredient(this.nameInput.value, this.amountInput.value);
-    this.ingredientAdded.emit(blah);
+    const ingredient = new Ingredient(this.nameInput.nativeElement.value, this.amountInput.nativeElement.value);
+    this.ingredientAdded.emit(ingredient);
+    this.clearForm();
+  }
+
+  clearForm()
+  {
+    this.nameInput.nativeElement.value = '';
+    this.amountInput.nativeElement.value = '';
   }
 
 }
